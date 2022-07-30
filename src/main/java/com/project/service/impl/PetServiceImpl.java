@@ -1,6 +1,7 @@
 package com.project.service.impl;
 
 import com.project.model.Pet;
+import com.project.model.PetStatus;
 import com.project.repository.PetRepository;
 import com.project.service.PetService;
 import lombok.RequiredArgsConstructor;
@@ -37,5 +38,10 @@ public class PetServiceImpl implements PetService {
    @Override
    public void deleteById(Long id) {
       petRepository.deleteById(id);
+   }
+
+   @Override
+   public List<Pet> getPetsByStatus(PetStatus[] petStatuses) {
+      return petRepository.getPetsByStatus(petStatuses);
    }
 }

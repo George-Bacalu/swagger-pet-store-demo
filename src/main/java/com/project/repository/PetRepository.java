@@ -9,10 +9,12 @@ import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Repository
 public class PetRepository {
@@ -70,5 +72,10 @@ public class PetRepository {
 
    public void deleteById(Long id) {
       pets.remove(id);
+   }
+
+   public List<Pet> getPetsByStatus(PetStatus[] selectedPetStatuses) {
+      List<String> petStatusesList = Arrays.stream(selectedPetStatuses).map(Enum::name).toList();
+      return findAll().stream().filter(pet -> petStatusesList.stream().anyMatch(status -> pet.getStatus().name().equals(status))).collect(Collectors.toList());
    }
 }
