@@ -2,6 +2,7 @@ package com.project.service.impl;
 
 import com.project.model.Pet;
 import com.project.model.PetStatus;
+import com.project.model.Tag;
 import com.project.repository.PetRepository;
 import com.project.service.PetService;
 import lombok.RequiredArgsConstructor;
@@ -43,5 +44,10 @@ public class PetServiceImpl implements PetService {
    @Override
    public List<Pet> getPetsByStatus(PetStatus[] petStatuses) {
       return petRepository.getPetsByStatus(petStatuses);
+   }
+
+   @Override
+   public List<Pet> getPetsByTag(List<String> tagNames) {
+      return petRepository.getPetsByTags(tagNames);
    }
 }

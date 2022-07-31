@@ -98,16 +98,27 @@ public class PetController {
       return ResponseEntity.status(HttpStatus.NO_CONTENT).body(Map.of("deleted", Boolean.TRUE));
    }
 
-   @ApiOperation(value = "Finds pet by status", notes = "Multiple status values can be provided with comma separated strings")
+   @ApiOperation(value = "Finds pet by status", notes = "Multiple status values can be provided with comma separated strings", response = List.class)
    @ApiResponses(value = {
          @ApiResponse(code = 200, message = "Successful operation"),
          @ApiResponse(code = 400, message = "Invalid status value")})
    @GetMapping("/findByStatus")
    public ResponseEntity<List<Pet>> getPetsByStatus(
-         @ApiParam(type = "enum", value = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold", allowMultiple = true)
-         @Valid @RequestParam("status") PetStatus[] status) {
+         @ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold", allowMultiple = true)
+         @Valid @RequestParam PetStatus[] status) {
       if (status == null) throw new InvalidDataException("Invalid status value");
       return ResponseEntity.ok(petService.getPetsByStatus(status));
+   }
+
+   @ApiOperation(value = "Finds pets by tags", notes = "Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing", response = List.class)
+   @ApiResponses(value = {
+         @ApiResponse(code = 200, message = "Successful operation"),
+         @ApiResponse(code = 400, message = "Invalid tag value")})
+   @GetMapping("/findByTags")
+   public ResponseEntity<List<Pet>> getPetsByTags(@ApiParam(value = "Tags to filter by", required = true, allowMultiple = true) @Valid @RequestParam List<String> tags) {
+      if(tags == null) throw new InvalidDataException("Invalid tags value");
+      if(tags.isEmpty()) throw new ResourceNotFoundException("No tags were provided");
+      return ResponseEntity.ok(petService.getPetsByTag(tags));
    }
 
    // TODO: fix bug: java.lang.NumberFormatException: For input string ""

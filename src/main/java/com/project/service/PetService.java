@@ -2,6 +2,7 @@ package com.project.service;
 
 import com.project.model.Pet;
 import com.project.model.PetStatus;
+import com.project.model.Tag;
 
 import java.util.List;
 
@@ -18,4 +19,6 @@ public interface PetService {
    void deleteById(Long id);
 
    List<Pet> getPetsByStatus(PetStatus[] petStatuses);
+
+   List<Pet> getPetsByTag(List<String> tagNames);
 }

@@ -74,8 +74,12 @@ public class PetRepository {
       pets.remove(id);
    }
 
-   public List<Pet> getPetsByStatus(PetStatus[] selectedPetStatuses) {
-      List<String> petStatusesList = Arrays.stream(selectedPetStatuses).map(Enum::name).toList();
-      return findAll().stream().filter(pet -> petStatusesList.stream().anyMatch(status -> pet.getStatus().name().equals(status))).collect(Collectors.toList());
+   public List<Pet> getPetsByStatus(PetStatus[] petStatuses) {
+      List<String> statusesList = Arrays.stream(petStatuses).map(Enum::name).toList();
+      return findAll().stream().filter(pet -> statusesList.stream().anyMatch(status -> pet.getStatus().name().equals(status))).collect(Collectors.toList());
+   }
+
+   public List<Pet> getPetsByTags(List<String> tagNames) {
+      return findAll().stream().filter(pet -> pet.getTags().stream().map(Tag::getName).anyMatch(tagNames::contains)).collect(Collectors.toList());
    }
 }
