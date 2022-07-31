@@ -29,6 +29,7 @@ public class Pet implements Serializable {
    @Serial
    private final static long serialVersionUID = 1L;
 
+   @ApiModelProperty(notes = "id", dataType = "long", example = "1", required = true)
    private Long id;
 
    private Category category;

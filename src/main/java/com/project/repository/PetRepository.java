@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 @Repository
 public class PetRepository {
 
-   private Map<Long, Pet> pets = new HashMap<>();
+   private final Map<Long, Pet> pets = new HashMap<>();
 
    @PostConstruct
    private void initializePets() {
@@ -29,6 +29,7 @@ public class PetRepository {
             .tags(List.of(Tag.builder().id(1L).name("tag1").build(), Tag.builder().id(2L).name("tag2").build()))
             .status(PetStatus.AVAILABLE)
             .build();
+      pets.put(pet1.getId(), pet1);
 
       Pet pet2 = Pet.builder().id(2L).name("cat")
             .category(Category.builder().id(2L).name("cats").build())
@@ -36,6 +37,7 @@ public class PetRepository {
             .tags(List.of(Tag.builder().id(3L).name("tag3").build(), Tag.builder().id(4L).name("tag4").build()))
             .status(PetStatus.PENDING)
             .build();
+      pets.put(pet2.getId(), pet2);
 
       Pet pet3 = Pet.builder().id(3L).name("parrot")
             .category(Category.builder().id(3L).name("parrots").build())
@@ -43,8 +45,7 @@ public class PetRepository {
             .tags(List.of(Tag.builder().id(5L).name("tag5").build(), Tag.builder().id(6L).name("tag6").build(), Tag.builder().id(7L).name("tag7").build()))
             .status(PetStatus.SOLD)
             .build();
-
-      pets = Map.ofEntries(Map.entry(pet1.getId(), pet1), Map.entry(pet2.getId(), pet2), Map.entry(pet3.getId(), pet3));
+      pets.put(pet3.getId(), pet3);
    }
 
    public List<Pet> findAll() {

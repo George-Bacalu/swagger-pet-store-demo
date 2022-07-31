@@ -55,16 +55,15 @@ public class PetController {
          @ApiResponse(code = 400, message = "Invalid ID supplied"),
          @ApiResponse(code = 404, message = "Pet not found")})
    @GetMapping("/{petId}")
-   public ResponseEntity<Pet> getPetById(@ApiParam(value = "ID of pet to return", required = true) @PathVariable("petId") Long id) {
+   public ResponseEntity<Pet> getPetById(@ApiParam(value = "ID of pet to return", example = "1", required = true) @PathVariable("petId") Long id) {
       if (id < 0) throw new InvalidDataException("Id " + id + " is invalid");
       if (petService.findById(id) == null) throw new ResourceNotFoundException("No pet with id " + id + " was found");
       return ResponseEntity.ok(petService.findById(id));
    }
 
-   @Validated
    @ApiOperation(value = "Add a new pet to the store", response = Pet.class)
    @ApiResponses(value = {
-         @ApiResponse(code = 200, message = "Successful operation"),
+         @ApiResponse(code = 201, message = "Successful operation"),
          @ApiResponse(code = 405, message = "Invalid input")})
    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
    public ResponseEntity<Pet> savePet(@ApiParam(value = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Pet pet, BindingResult bindingResult) {
@@ -72,7 +71,6 @@ public class PetController {
       return ResponseEntity.status(HttpStatus.CREATED).body(petService.save(pet));
    }
 
-   @Validated
    @ApiOperation(value = "Update an existing pet", response = Pet.class)
    @ApiResponses(value = {
          @ApiResponse(code = 200, message = "Successful operation"),
@@ -92,7 +90,7 @@ public class PetController {
          @ApiResponse(code = 404, message = "No pet with given id found"),
          @ApiResponse(code = 500, message = "Internal server error")})
    @DeleteMapping("/{petId}")
-   public ResponseEntity<Map<String, Boolean>> deleteOrderById(@ApiParam(value = "ID of pet to return", required = true) @PathVariable("petId") Long id) {
+   public ResponseEntity<Map<String, Boolean>> deleteOrderById(@ApiParam(value = "ID of pet to return", example = "1", required = true) @PathVariable("petId") Long id) {
       if (id < 0) throw new InvalidDataException("Id " + id + " is invalid");
       petService.deleteById(id);
       return ResponseEntity.status(HttpStatus.NO_CONTENT).body(Map.of("deleted", Boolean.TRUE));
@@ -120,7 +118,4 @@ public class PetController {
       if(tags.isEmpty()) throw new ResourceNotFoundException("No tags were provided");
       return ResponseEntity.ok(petService.getPetsByTag(tags));
    }
-
-   // TODO: fix bug: java.lang.NumberFormatException: For input string ""
-   // TODO: fix bug: java.lang.UnsupportedOperationException: null (when executing post and delete requests)
 }
