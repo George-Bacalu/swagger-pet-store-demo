@@ -1,11 +1,14 @@
 package com.project.repository;
 
 import com.project.exception.ResourceNotFoundException;
+import com.project.model.ApiResponse;
 import com.project.model.Category;
 import com.project.model.Pet;
 import com.project.model.PetStatus;
 import com.project.model.Tag;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
@@ -82,5 +85,23 @@ public class PetRepository {
 
    public List<Pet> getPetsByTags(List<String> tagNames) {
       return findAll().stream().filter(pet -> pet.getTags().stream().map(Tag::getName).anyMatch(tagNames::contains)).collect(Collectors.toList());
+   }
+
+   public ApiResponse updatePetWithFormData(Long id, String name, String status) {
+      Pet pet = findById(id);
+      pet.setId(id);
+      pet.setName(name);
+      pet.setStatus(PetStatus.valueOf(status));
+      return new ApiResponse(HttpStatus.OK.value(), "unknown", id.toString());
+   }
+
+   public ApiResponse updatePetFile(Long id, String additionalMetadata, MultipartFile file) {
+      Pet pet = findById(id);
+      List<String> photoUrls = new ArrayList<>(pet.getPhotoUrls());
+      photoUrls.add(file.getOriginalFilename());
+      pet.setPhotoUrls(photoUrls);
+      save(pet);
+      String message = "additionalMetadata: " + additionalMetadata + "\n" + "File uploaded to " + file.getOriginalFilename() + " " + file.getSize();
+      return new ApiResponse(HttpStatus.OK.value(), "unknown", message);
    }
 }

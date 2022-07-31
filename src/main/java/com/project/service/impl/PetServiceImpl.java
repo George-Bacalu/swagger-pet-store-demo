@@ -1,12 +1,13 @@
 package com.project.service.impl;
 
+import com.project.model.ApiResponse;
 import com.project.model.Pet;
 import com.project.model.PetStatus;
-import com.project.model.Tag;
 import com.project.repository.PetRepository;
 import com.project.service.PetService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -49,5 +50,15 @@ public class PetServiceImpl implements PetService {
    @Override
    public List<Pet> getPetsByTag(List<String> tagNames) {
       return petRepository.getPetsByTags(tagNames);
+   }
+
+   @Override
+   public ApiResponse updatePetWithFormData(Long id, String name, String status) {
+      return petRepository.updatePetWithFormData(id, name, status);
+   }
+
+   @Override
+   public ApiResponse updatePetFile(Long id, String additionalMetadata, MultipartFile file) {
+      return petRepository.updatePetFile(id, additionalMetadata, file);
    }
 }

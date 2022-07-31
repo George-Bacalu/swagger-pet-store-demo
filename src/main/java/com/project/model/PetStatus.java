@@ -13,7 +13,7 @@ public enum PetStatus {
    private final String status;
 
    @Override
-   @JsonValue // allows to serialize an entire object using its single method.
+   @JsonValue
    public String toString() {
       return status;
    }

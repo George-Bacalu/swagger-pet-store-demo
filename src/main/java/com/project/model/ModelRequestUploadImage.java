@@ -16,20 +16,12 @@ import java.io.Serializable;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ApiResponse implements Serializable {
+public class ModelRequestUploadImage implements Serializable {
 
    @Serial
    private final static long serialVersionUID = 1L;
 
-   @ApiParam(name = "fileCode", value = "fileCode")
-   @ApiModelProperty(notes = "code", example = "1")
-   private Integer code;
-
-   @ApiParam(name = "type", value = "type")
-   @ApiModelProperty(notes = "type")
-   private String type;
-
-   @ApiParam(name = "message", value = "message")
-   @ApiModelProperty(notes = "message")
-   private String message;
+   @ApiParam(value = "Additional data to pass to server")
+   @ApiModelProperty(notes = "additionalMetadata")
+   private String additionalMetadata;
 }

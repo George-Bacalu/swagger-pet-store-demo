@@ -16,14 +16,10 @@ import java.util.List;
 
 @Data
 @Builder
-@XmlAccessorType(XmlAccessType.PROPERTY) // Define what types in this class need to be mapped to XML
-//XmlAccessType.FIELD: Maps all fields in this class to XML
-//XmlAccessType.PROPERTY: Maps properties in this class (get/set methods) to XML
-//XmlAccessType.PUBLIC_MEMBER: Map all public fields or properties in this class to XML at the same time (default)
-//XmlAccessType.NONE: Not mapped
-@XmlType(name = "pet", propOrder = "tags") // allows you to specify the content order in the generated schema type
-@JsonPropertyOrder("photoUrls") // allows a specific order to be preserved while serializing a JSON object
-@JsonInclude(JsonInclude.Include.NON_NULL) // used at exclude properties having null/empty or default values
+@XmlAccessorType(XmlAccessType.PROPERTY)
+@XmlType(name = "pet", propOrder = "tags")
+@JsonPropertyOrder("photoUrls")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Pet implements Serializable {
 
    @Serial

@@ -16,20 +16,16 @@ import java.io.Serializable;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ApiResponse implements Serializable {
+public class ModelRequestUpdatePet implements Serializable {
 
    @Serial
    private final static long serialVersionUID = 1L;
 
-   @ApiParam(name = "fileCode", value = "fileCode")
-   @ApiModelProperty(notes = "code", example = "1")
-   private Integer code;
+   @ApiParam(value = "Updated name of the pet")
+   @ApiModelProperty(notes = "name")
+   private String name;
 
-   @ApiParam(name = "type", value = "type")
-   @ApiModelProperty(notes = "type")
-   private String type;
-
-   @ApiParam(name = "message", value = "message")
-   @ApiModelProperty(notes = "message")
-   private String message;
+   @ApiParam(value = "Updated status of the pet")
+   @ApiModelProperty(notes = "status")
+   private PetStatus status;
 }
